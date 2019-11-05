@@ -1,5 +1,3 @@
-[![build status](https://gitlab.com/nl2go/docker/ansible/badges/master/build.svg)](https://gitlab.com/nl2go/docker/ansible/commits/master)
-
 # Docker Ansible
 
 Containerized [Ansible](https://www.ansible.com/) CLI.
@@ -18,7 +16,7 @@ To rebuild the image run:
 
 ## Versioning
 
-We use [SemVer](http://semver.org) for versioning. For the versions available, see the [tags on this repository](https://github.com/newsletter2go/docker-ansible/tags).
+We use [SemVer](http://semver.org) for versioning. For the versions available, see the [tags on this repository](https://github.com/nl2go/docker-ansible/tags).
 
 ## Maintainers
 
