@@ -1,0 +1,10 @@
+version: '2'
+services:
+  ansible:
+    build:          
+      context: ./
+      dockerfile: Dockerfile
+    command: /bin/bash
+    tty: true
+    stdin_open: true
+
