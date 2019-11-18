@@ -18,10 +18,6 @@ To rebuild the image run:
 
     docker-compose build
 
-## Versioning
-
-We use [SemVer](http://semver.org) for versioning. For the versions available, see the [tags on this repository](https://github.com/nl2go/docker-ansible/tags).
-
 ## Maintainers
 
 - [build-failure](https://github.com/build-failure)
