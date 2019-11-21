@@ -1,4 +1,4 @@
-version: '2'
+version: '3.5'
 services:
   ansible:
     build:
@@ -11,3 +11,9 @@ services:
       - ..:/projects
       - $HOME$USERPROFILE/.ssh:/tmp/.ssh
     working_dir: /projects
+    networks:
+      - ansible
+
+networks:
+  ansible:
+    name: ansible
