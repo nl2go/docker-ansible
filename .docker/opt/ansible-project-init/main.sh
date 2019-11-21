@@ -35,5 +35,5 @@ function installProjectRoleDependencies(){
   ansible-galaxy install -r "$requirementsPath"
 }
 
-decryptInventoryPasswordFiles "$PROJECT_NAME" "$INVENTORIES_PATH"
+decryptInventoryPasswordFiles
 installProjectRoleDependencies
