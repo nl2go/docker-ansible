@@ -9,37 +9,21 @@ if [ -z "$INVENTORIES_PATH" ]; then
   INVENTORIES_PATH="${WORKING_DIR}/inventories"
 fi
 
-function decryptInventoryPasswordFile(){
-  local encryptedVaultPasswordFile="$1"
-  local inventoryName
-  local decryptedVaultPasswordFile
-
-  inventoryName=$(basename "$(dirname "$decryptedVaultPasswordFile")")
-  decryptedVaultPasswordFile="/tmp/.vault-password-${projectName}-${inventoryName}"
-  openssl enc -d -aes-256-cbc -pass env:VAULT_PASSWORD_PASSWORD < "${encryptedVaultPasswordFile}" > "${decryptedVaultPasswordFile}"
-  info -n "${projectName}-${inventoryName}@${decryptedVaultPasswordFile},"
-}
-
 function decryptInventoryPasswordFiles(){
-  local projectName
-  local inventoriesPath
-  local identityList
-
-  projectName="$1"
-  inventoriesPath="$2"
-
-  info "Load and decrypt inventory password files for project ${projectName}."
-  if [ "$(find "${inventoriesPath}" -mindepth 2 -maxdepth 2 -name .vault-password | wc -l)" -gt 0 ]; then
-    info -n Enter decryption password for .vault-password files
+  if [ $(find "${INVENTORIES_PATH}" -mindepth 2 -maxdepth 2 -name .vault-password | wc -l) -gt 0 ]; then
+    info "Enter decryption password for .vault-password files:"
     read -s -r -p ": " VAULT_PASSWORD_PASSWORD ; echo
     export VAULT_PASSWORD_PASSWORD
-    identityList=$(find "${inventoriesPath}" -mindepth 2 -maxdepth 2 -name .vault-password | \
-      while read -r encryptedVaultPasswordFile; do
-        info "Decrypt $encryptedVaultPasswordFile."
-        decryptInventoryPasswordFile "$encryptedVaultPasswordFile"
+    ANSIBLE_VAULT_IDENTITY_LIST=$(find "${INVENTORIES_PATH}" -mindepth 2 -maxdepth 2 -name .vault-password | \
+      while read V; do
+        INVENTORY_NAME=$(basename $(dirname $V))
+        VAULT_PASSWORD_FILE="/tmp/.vault-password-${PROJECT_NAME}-${INVENTORY_NAME}"
+        cat "${V}" | openssl enc -d -aes-256-cbc -pass env:VAULT_PASSWORD_PASSWORD > "${VAULT_PASSWORD_FILE}"
+        echo -n "${PROJECT_NAME}-${INVENTORY_NAME}@${VAULT_PASSWORD_FILE},"
       done)
     export VAULT_PASSWORD_PASSWORD=""
-    export ANSIBLE_VAULT_IDENTITY_LIST=${identityList%,}
+    # remove trailing comma
+    export ANSIBLE_VAULT_IDENTITY_LIST=${ANSIBLE_VAULT_IDENTITY_LIST%,}
   fi
 }
 
