@@ -30,4 +30,10 @@ RUN echo "deb http://ppa.launchpad.net/ansible/ansible-$ANSIBLE_VERSION/ubuntu x
 RUN pip install -U pip
 RUN pip install ansible_merge_vars
 
-CMD [ "ansible-playbook", "--version" ]
+COPY .docker/ /
+
+RUN ln -fsn /opt/ansible-project-init/main.sh /usr/bin/ansible-project-init
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+CMD ["/bin/bash"]

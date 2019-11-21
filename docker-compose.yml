@@ -1,10 +1,13 @@
 version: '2'
 services:
   ansible:
-    build:          
+    build:
       context: ./
       dockerfile: Dockerfile
     command: /bin/bash
     tty: true
     stdin_open: true
-
+    volumes:
+      - ..:/projects
+      - $HOME$USERPROFILE/.ssh:/tmp/.ssh
+    working_dir: /projects
