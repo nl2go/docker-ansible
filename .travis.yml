@@ -3,9 +3,10 @@ language: python
 services: docker
 
 before_script:
-  - pip install pytest pytest-cov codecov
+  - pip install pytest pytest-cov codecov flake8
 
 script:
+  - flake8
   - pytest --cov=./
 
 after_script:
