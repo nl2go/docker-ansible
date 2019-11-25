@@ -3,17 +3,7 @@
 import os
 import subprocess
 import re
-
-from shutil import copyfile
-
-
-def is_file(file):
-    return os.path.isfile(file)
-
-
-def install_dependencies(requirements_file):
-    command = 'ansible-galaxy install -r {}'.format(requirements_file)
-    subprocess.call(command)
+import shutil
 
 
 def create_ssh_dir_if_not_exists(ssh_dir):
@@ -22,7 +12,7 @@ def create_ssh_dir_if_not_exists(ssh_dir):
 
 
 def copy_private_key(tmp_private_key, private_key):
-    copyfile(tmp_private_key, private_key)
+    shutil.copyfile(tmp_private_key, private_key)
     os.chmod(private_key, 0o600)
 
 
