@@ -3,7 +3,7 @@ language: python
 services: docker
 
 before_script:
-  - pip install pytest pytest-cov
+  - pip install pytest pytest-cov codecov
 
 script:
   - pytest --cov=./
