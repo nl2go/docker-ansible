@@ -8,11 +8,12 @@ services:
     tty: true
     stdin_open: true
     volumes:
-      - ..:/projects
+      - .:/ansible
       - $HOME$USERPROFILE/.ssh:/tmp/.ssh
-    working_dir: /projects
+    working_dir: /ansible
     networks:
       - ansible
+
 
 networks:
   ansible:
