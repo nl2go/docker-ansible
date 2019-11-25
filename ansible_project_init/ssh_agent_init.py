@@ -32,7 +32,10 @@ def is_file_exist(file):
 
 def run_ssh_agent():
     output = subprocess.check_output('ssh-agent')
-    output_pattern = re.compile('SSH_AUTH_SOCK=(?P<socket>[^;]+).*SSH_AGENT_PID=(?P<pid>\d+)', re.MULTILINE | re.DOTALL)
+    output_pattern = re.compile(
+        'SSH_AUTH_SOCK=(?P<socket>[^;]+).*SSH_AGENT_PID=(?P<pid>\\d+)',
+        re.MULTILINE | re.DOTALL
+    )
     match = output_pattern.search(output)
     if match is None:
         raise Exception('Could not parse ssh-agent output: {}'.format(output))
@@ -59,4 +62,7 @@ def init():
         run_ssh_agent()
         add_ssh_key()
     else:
-        print('Skipping SSH Agent start. No private key was found at {}.'.format(tmp_private_key))
+        print(
+            'Skipping SSH Agent start. No private key was found at {}.'
+            .format(tmp_private_key)
+        )
