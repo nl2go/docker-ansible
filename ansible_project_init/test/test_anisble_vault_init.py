@@ -72,3 +72,30 @@ class AnsibleVaultInitTest(unittest.TestCase):
             actual_encrypted_vault_password_files
         )
         base_dir.cleanup()
+
+    @mock.patch('getpass.getpass')
+    @mock.patch('os.getcwd')
+    def test_init(self, mock_os_getcwd, mock_get_pass):
+        vault_password = 'foo'
+        encryption_password = 'bar'
+        mock_get_pass.return_value = encryption_password
+        base_dir = tempfile.TemporaryDirectory('r')
+        inventory_dir = base_dir.name + '/inventories/foo'
+        os.makedirs(inventory_dir, exist_ok=True)
+        encrypted_vault_password_file = inventory_dir + '/.vault-password'
+        ansible_vault_init.encrypt_vault_password_file(
+            vault_password,
+            encryption_password,
+            encrypted_vault_password_file
+        )
+        mock_os_getcwd.return_value = base_dir.name
+
+        ansible_vault_init.init()
+
+        base_dir.cleanup()
+
+    @mock.patch('os.getcwd')
+    def test_init_skip(self, mock_os_getcwd):
+        mock_os_getcwd.return_value = '/tmp'
+
+        ansible_vault_init.init()
