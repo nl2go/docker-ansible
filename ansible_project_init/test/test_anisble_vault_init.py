@@ -1,5 +1,10 @@
+import sys
 import unittest
 import tempfile
+from unittest import mock
+
+sys.modules['getpass'] = mock.MagicMock()
+import getpass
 
 from ansible_project_init import ansible_vault_init
 
@@ -30,3 +35,14 @@ class AnsibleVaultInitTest(unittest.TestCase):
         self.assertEqual(vault_password, actual_vault_password.rstrip())
         encrypted_vault_password_file.close()
         vault_password_file.close()
+
+    def test_get_vault_password_file(self):
+        self.assertEqual('/tmp/.vault-password-foo', ansible_vault_init.get_vault_password_file('foo'))
+
+    def test_prompt_encryption_password(self):
+        expected_encryption_password = 'foo'
+        getpass.getpass.return_value = expected_encryption_password
+
+        encryption_password = ansible_vault_init.prompt_encryption_password()
+
+        self.assertEqual(expected_encryption_password, encryption_password)
