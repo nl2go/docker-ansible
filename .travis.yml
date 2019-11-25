@@ -7,3 +7,6 @@ before_script:
 
 script:
   - pytest --cov=./
+
+after_script:
+  - codecov
