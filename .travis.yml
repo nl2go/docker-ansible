@@ -2,8 +2,8 @@
 language: python
 services: docker
 
+before_script:
+  - pip install pytest pytest-cov
+
 script:
   - pytest --cov=./
-
-after_script:
-  - docker-compose down
