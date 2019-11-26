@@ -23,27 +23,16 @@ class SshAgentInitTest(unittest.TestCase):
         mock_make_dirs,
         mock_check_output
     ):
-        mock_copyfile.side_effect = (
-            lambda source, target:
-                self.assertEqual('/tmp/.ssh/id_rsa', source)
-        )
+        mock_copyfile.side_effect = self.verify_copy_private_key
         mock_is_file.return_value = True
         mock_path_exists.return_value = False
-        mock_chmod.side_effect = (
-            lambda private_key, mode:
-                self.assertEqual(0o600, mode)
-        )
-        mock_make_dirs.side_effect = (
-            lambda ssh_dir, mode: self.assertEqual('/root/.ssh', ssh_dir)
-        )
+        mock_chmod.side_effect = self.verify_private_key_chmod
+        mock_make_dirs.side_effect = self.verify_ssh_dir_chmod
         mock_check_output.return_value =\
             'SSH_AUTH_SOCK=/tmp/ssh-TIVv4l2O49GZ/agent.78;' \
             'export SSH_AUTH_SOCK;SSH_AGENT_PID=79;' \
             'export SSH_AGENT_PID; echo Agent pid 79;'
-
-        mock_call.side_effect = (
-            lambda command: 'ssh-add'
-        )
+        mock_call.side_effect = (lambda command: 'ssh-add')
 
         ssh_agent_init.init()
 
@@ -52,3 +41,15 @@ class SshAgentInitTest(unittest.TestCase):
         mock_is_file.return_value = False
 
         ssh_agent_init.init()
+
+    def verify_private_key_chmod(self, private_key, mode):
+        self.assertEqual('/root/.ssh/id_rsa', private_key)
+        self.assertEqual(0o600, mode)
+
+    def verify_ssh_dir_chmod(self, ssh_dir, mode):
+        self.assertEqual('/root/.ssh', ssh_dir)
+        self.assertEqual(0o700, mode)
+
+    def verify_copy_private_key(self, source, target):
+        self.assertEqual('/tmp/.ssh/id_rsa', source)
+        self.assertEqual('/root/.ssh/id_rsa', target)
