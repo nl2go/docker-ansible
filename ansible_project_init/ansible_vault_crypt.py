@@ -4,16 +4,17 @@ import os
 import subprocess
 import getpass
 
+
 confirm_msg_template = \
-    'File {} already exists. Do you want to replace it? (y/n)'
+    'File "{}" already exists. Do you want to replace it? (y/n): '
 prompt_master_password_msg = \
-    'Enter the master password for .vault-password files:'
+    'Enter the master password for .vault-password files: '
 prompt_vault_password_msg_template = \
-    'Enter the vault password for {} inventory:'
+    'Enter the vault password for "{}" inventory: '
 
 
 def get_input(msg):
-    return input(msg)
+    return raw_input(msg)
 
 
 def vault_encrypt_password():

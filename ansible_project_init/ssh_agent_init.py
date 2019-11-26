@@ -28,7 +28,9 @@ def run_ssh_agent():
     )
     match = output_pattern.search(output)
     if match is None:
-        raise Exception('Could not parse ssh-agent output: {}'.format(output))
+        raise Exception(''
+                        'Could not parse ssh-agent output: "{}"'.format(output)
+                        )
 
     agent_data = match.groupdict()
     os.environ['SSH_AUTH_SOCK'] = agent_data.get('socket')
@@ -53,6 +55,6 @@ def init():
         add_ssh_key()
     else:
         print(
-            'Skipping SSH Agent start. No private key was found at {}.'
+            'Skipping SSH Agent start. No private key was found at "{}".'
             .format(tmp_private_key)
         )
