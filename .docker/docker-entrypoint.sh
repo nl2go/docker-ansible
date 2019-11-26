@@ -1,5 +1,5 @@
-#!/bin/bash
+#!/bin/ash
 
 PYTHONPATH=/opt/ansible-project-init
 
-python -m ansible_project_init && bash -c "$*"
+python -m ansible_project_init && ash -c "$*"

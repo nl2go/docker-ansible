@@ -62,11 +62,12 @@ def encrypt_content_to_file(
     password,
     encrypted_file
 ):
-    command = 'echo {} | openssl enc -aes-256-cbc -pass "pass:{}" > {}'.format(
-        content,
-        password,
-        encrypted_file
-    )
+    command = 'echo {}| openssl enc -aes-256-cbc -pbkdf2 -pass "pass:{}" > {}'\
+        .format(
+            content,
+            password,
+            encrypted_file
+        )
     subprocess.call(command, shell=True)
 
 
@@ -75,11 +76,12 @@ def decrypt_file_to_file(
     encrypted_file,
     decrypted_file
 ):
-    command = 'openssl enc -d -aes-256-cbc -pass pass:{} < {} > {}'.format(
-        password,
-        encrypted_file,
-        decrypted_file
-    )
+    command = 'openssl enc -d -aes-256-cbc -pbkdf2 -pass pass:{} < {} > {}'\
+        .format(
+            password,
+            encrypted_file,
+            decrypted_file
+        )
     subprocess.call(command, shell=True)
 
 

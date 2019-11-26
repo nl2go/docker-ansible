@@ -60,3 +60,7 @@ def init():
             'Skpping Anisble Vault password decryption. '
             'No .vault-password files were found!'
         )
+
+
+if __name__ == "__main__":
+    init()

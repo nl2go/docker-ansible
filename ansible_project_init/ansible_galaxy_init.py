@@ -27,3 +27,7 @@ def init():
             'Skipping Ansible Galaxy roles installation. No "{}" file present.'
             .format(requirements_file)
         )
+
+
+if __name__ == "__main__":
+    init()
