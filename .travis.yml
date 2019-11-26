@@ -11,3 +11,8 @@ script:
 
 after_script:
   - codecov
+
+after_success:
+  - docker build . -t "nl2go/ansible:$TRAVIS_BRANCH"
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push "nl2go/ansible:$TRAVIS_BRANCH"
