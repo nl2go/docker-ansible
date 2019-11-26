@@ -3,7 +3,8 @@
 import glob
 import os
 import getpass
-import subprocess
+
+from ansible_project_init import ansible_vault_crypt
 
 
 def get_encrypted_vault_password_files(base_dir):
@@ -29,32 +30,6 @@ def get_vault_id(inventory_name, vault_password_file):
     return '{}@{}'.format(inventory_name, vault_password_file)
 
 
-def encrypt_vault_password_file(
-    vault_password,
-    encryption_password,
-    encrypted_vault_password_file
-):
-    command = 'echo {} | openssl enc -aes-256-cbc -pass "pass:{}" > {}'.format(
-          vault_password,
-          encryption_password,
-          encrypted_vault_password_file
-    )
-    subprocess.call(command, shell=True)
-
-
-def decrypt_vault_password_file(
-    encryption_password,
-    encrypted_vault_password_file,
-    vault_password_file
-):
-    command = 'openssl enc -d -aes-256-cbc -pass pass:{} < {} > {}'.format(
-      encryption_password,
-      encrypted_vault_password_file,
-      vault_password_file
-    )
-    subprocess.call(command, shell=True)
-
-
 def decrypt_vault_password_files(encrypted_vault_password_files):
     vault_ids = []
     encryption_password = prompt_encryption_password()
@@ -63,7 +38,7 @@ def decrypt_vault_password_files(encrypted_vault_password_files):
         inventory_name = get_inventory_name(encrypted_vault_password_file)
         vault_password_file = get_vault_password_file(inventory_name)
         vault_id = get_vault_id(inventory_name, vault_password_file)
-        decrypt_vault_password_file(
+        ansible_vault_crypt.decrypt_file_to_file(
             encryption_password,
             encrypted_vault_password_file,
             vault_password_file
