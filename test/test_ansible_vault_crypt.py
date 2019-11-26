@@ -17,7 +17,9 @@ class AnsibleVaultCryptTest(unittest.TestCase):
 
         ansible_vault_crypt.vault_encrypt_password()
 
-        self.assertTrue(ansible_vault_crypt.is_file_exist(cwd.name + '/.vault-password'))
+        self.assertTrue(ansible_vault_crypt.is_file_exist(
+            cwd.name + '/.vault-password')
+        )
         cwd.cleanup()
 
     def test_encrypt_decrypt_content(self):
