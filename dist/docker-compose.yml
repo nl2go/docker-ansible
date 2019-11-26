@@ -1,9 +1,7 @@
 version: '3.5'
 services:
   ansible:
-    build:
-      context: ./
-      dockerfile: Dockerfile
+    image: nl2go/ansible
     tty: true
     stdin_open: true
     volumes:

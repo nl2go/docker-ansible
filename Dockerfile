@@ -35,6 +35,8 @@ COPY ansible_project_init/ /opt/ansible_project_init
 
 RUN ln -fsn /opt/ansible_project_init/main.py /usr/bin/ansible-project-init
 
+WORKDIR /ansible
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 CMD ["/bin/bash"]
