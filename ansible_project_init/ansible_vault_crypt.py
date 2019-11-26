@@ -14,7 +14,7 @@ prompt_vault_password_msg_template = \
 
 
 def get_input(msg):
-    return raw_input(msg)
+    return input(msg)
 
 
 def vault_encrypt_password():
