@@ -64,7 +64,7 @@ class AnsibleVaultInitTest(unittest.TestCase):
         os.makedirs(inventory_dir, exist_ok=True)
         open(inventory_dir + '/.vault-password', 'a').close()
 
-        actual_encrypted_vault_password_files = ansible_vault_init\
+        actual_encrypted_vault_password_files = ansible_vault_init \
             .get_encrypted_vault_password_files(base_dir.name)
 
         self.assertEqual(
