@@ -16,7 +16,7 @@ def get_input(msg):
     return input(msg)
 
 
-def encrypt_vault_password():
+def vault_encrypt_password():
     base_dir = os.getcwd()
     encrypted_vault_password_file = base_dir + '/.vault-password'
     confirm_msg = confirm_msg_template.format(encrypted_vault_password_file)
@@ -32,7 +32,7 @@ def encrypt_vault_password():
     encrypt_content_to_file(
         vault_password,
         master_password,
-        encrypt_content_to_file
+        encrypted_vault_password_file
     )
 
 
@@ -80,3 +80,7 @@ def decrypt_file_to_file(
         decrypted_file
     )
     subprocess.call(command, shell=True)
+
+
+if __name__ == "__main__":
+    vault_encrypt_password()

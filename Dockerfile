@@ -33,6 +33,8 @@ RUN pip install ansible_merge_vars
 COPY .docker/ /
 COPY ansible_project_init/ /opt/ansible_project_init
 
+RUN ln -fsn /opt/ansible_project_init/ansible_vault_crypt.py /usr/bin/ansible-vault-encrypt-password
+
 WORKDIR /ansible
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
