@@ -4,9 +4,12 @@ import os
 import subprocess
 import getpass
 
-confirm_msg_template = 'File {} already exists. Do you want to replace it? (y/n)'
-prompt_master_password_msg = 'Enter the master password for .vault-password files:'
-prompt_vault_password_msg_template = 'Enter the vault password for {} inventory:'
+confirm_msg_template = \
+    'File {} already exists. Do you want to replace it? (y/n)'
+prompt_master_password_msg = \
+    'Enter the master password for .vault-password files:'
+prompt_vault_password_msg_template = \
+    'Enter the vault password for {} inventory:'
 
 
 def get_input(msg):
@@ -17,13 +20,20 @@ def encrypt_vault_password():
     base_dir = os.getcwd()
     encrypted_vault_password_file = base_dir + '/.vault-password'
     confirm_msg = confirm_msg_template.format(encrypted_vault_password_file)
-    if is_file_exist(encrypted_vault_password_file) and not is_confirm(confirm_msg):
+    if is_file_exist(encrypted_vault_password_file) \
+            and not is_confirm(confirm_msg):
         return
 
     inventory_name = os.path.basename(base_dir)
     master_password = prompt_password(prompt_master_password_msg)
-    vault_password = prompt_password(prompt_vault_password_msg_template.format(inventory_name))
-    encrypt_content_to_file(vault_password, master_password, encrypt_content_to_file)
+    vault_password = prompt_password(
+        prompt_vault_password_msg_template.format(inventory_name)
+    )
+    encrypt_content_to_file(
+        vault_password,
+        master_password,
+        encrypt_content_to_file
+    )
 
 
 def prompt_password(prompt):
