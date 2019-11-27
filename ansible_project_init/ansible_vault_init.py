@@ -55,7 +55,9 @@ def init():
     )
     if encrypted_vault_password_files:
         print('Decrypting Ansible Vault passwords.')
-        vault_ids = decrypt_vault_password_files(encrypted_vault_password_files)
+        vault_ids = decrypt_vault_password_files(
+            encrypted_vault_password_files
+        )
         env_config.write_ansible_vault_config(vault_ids)
     else:
         print(
