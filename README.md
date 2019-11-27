@@ -14,7 +14,7 @@ Contains additional tools/packages (s. [Dockerfile](Dockerfile)).
 Place the [docker-compose.yml](dist/docker-compose.yml) into your Ansible project and run 
     
     $ docker-compose run ansible
-    
+
 ### SSH Agent
 
 While using  SSH key authentication method to access remote resources, ensure that the encrypted private
@@ -47,14 +47,40 @@ manage those, apart from the fact that an official integration into a password m
 To overcome the limitations of the status quo a convenient method to manage multiple Ansible Vault password
 files is provided.
 
-After starting the Anisble container the personal password to encrypt Ansible Vault password files will be prompted.
+#### Create Encrypted Password Files
 
+Initially an encrypted password file for every inventory/environment must be created using a personal master and environment
+related Ansible Vault password. This is a one time operation per inventory/environment. Add `.vault-password` to the
+`gitignore` patterns to prevent accidental check-ins.
+
+    $ cd inventories/prod
+    $ ansible-encrypt-vault-password
+    Enter the master password for .vault-password files:
+    Enter the vault password for prod inventory:
+    Created /ansible/inventories/prod/.vault-password.
+   
+   
+As a result master password encrypted `inventories/prod/.vault-password` file that contains the environment Ansible Vault
+password is created.
+
+#### Load Encrypted Password Files
+
+The encrypted password files are loaded when a new container is started.
+ 
     $ docker-compose run ansible
-    Starting SSH Agent.
-    Enter passphrase for /root/.ssh/id_rsa: 
-    Identity added: /root/.ssh/id_rsa (/root/.ssh/id_rsa)
-    Skpping Anisble Vault password decryption. No .vault-password files were found!
+    ...
+    Decrypting Ansible Vault passwords.
+    Enter decryption password for .vault-password files: 
+    Decrypting /ansible/inventories/prod/.vault-password.
+    
+    
+Alternatively encrypted password files may be reloaded within existing container.
 
+    $ cd /ansible
+    $ ansible-vault-init
+    Decrypting Ansible Vault passwords.
+    Enter decryption password for .vault-password files: 
+    Decrypting /ansible/inventories/prod/.vault-password.
 
 ## Development
 

@@ -34,7 +34,7 @@ def decrypt_vault_password_files(encrypted_vault_password_files):
     vault_ids = []
     encryption_password = prompt_encryption_password()
     for encrypted_vault_password_file in encrypted_vault_password_files:
-        print('Processing "{}".'.format(encrypted_vault_password_file))
+        print('Decrypting "{}".'.format(encrypted_vault_password_file))
         inventory_name = get_inventory_name(encrypted_vault_password_file)
         vault_password_file = get_vault_password_file(inventory_name)
         vault_id = get_vault_id(inventory_name, vault_password_file)

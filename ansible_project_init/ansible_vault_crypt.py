@@ -35,6 +35,7 @@ def encrypt_vault_password():
         master_password,
         encrypted_vault_password_file
     )
+    print('Created "{}".'.format(encrypted_vault_password_file))
 
 
 def prompt_password(prompt):
