@@ -9,7 +9,7 @@ def is_file(file):
 
 
 def install_dependencies(requirements_file):
-    command = 'ansible-galaxy install -r {}'.format(requirements_file)
+    command = ['ansible-galaxy', 'install', '-r', requirements_file]
     subprocess.call(command)
 
 
