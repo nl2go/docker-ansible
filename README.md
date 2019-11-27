@@ -82,6 +82,18 @@ Alternatively encrypted password files may be reloaded within existing container
     Enter decryption password for .vault-password files: 
     Decrypting /ansible/inventories/prod/.vault-password.
 
+### Ansible Galaxy
+
+Bigger Ansible projects frequently utilize Ansible Galaxy Roles that can be installed using a `requirements.yml` file.
+Roles installation can be triggered from the container.
+
+    $ cd /ansible
+    ansible-galaxy-init
+    Skipping Ansible Galaxy roles installation. No "/ansible/roles/requirements.yml" file present.
+
+It's a tiny wrapper for `ansible-galaxy install -r /ansible/roles/requirements.yml` that ensures that the `requirements.yml`
+is placed into the right location expected by [Ansible Tower](https://www.ansible.com/products/tower).
+
 ## Development
 
 You can run the locally build image with:
