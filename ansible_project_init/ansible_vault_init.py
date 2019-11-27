@@ -5,6 +5,7 @@ import os
 import getpass
 
 from ansible_project_init import ansible_vault_crypt
+from ansible_project_init import env_config
 
 
 def get_encrypted_vault_password_files(base_dir):
@@ -54,7 +55,8 @@ def init():
     )
     if encrypted_vault_password_files:
         print('Decrypting Ansible Vault passwords.')
-        decrypt_vault_password_files(encrypted_vault_password_files)
+        vault_ids = decrypt_vault_password_files(encrypted_vault_password_files)
+        env_config.write_ansible_vault_config(vault_ids)
     else:
         print(
             'Skpping Anisble Vault password decryption. '

@@ -5,6 +5,8 @@ import subprocess
 import re
 import shutil
 
+from ansible_project_init import env_config
+
 
 def create_ssh_dir_if_not_exists(ssh_dir):
     if not os.path.exists(ssh_dir):
@@ -34,24 +36,12 @@ def run_ssh_agent():
 
     agent_data = match.groupdict()
     set_ssh_agent_env_config(agent_data)
-    write_ssh_agent_config_file(agent_data)
+    env_config.write_ssh_agent_config(agent_data)
 
 
 def set_ssh_agent_env_config(agent_data):
     os.environ['SSH_AUTH_SOCK'] = agent_data.get('socket')
     os.environ['SSH_AGENT_PID'] = agent_data.get('pid')
-
-
-def write_ssh_agent_config_file(agent_data):
-    file = open('/tmp/.ansible-ssh-agent', "w")
-    write_ln(file, '#!/bin/sh')
-    write_ln(file, 'export SSH_AUTH_SOCK=' + agent_data.get('socket'))
-    write_ln(file, 'export SSH_AGENT_PID=' + agent_data.get('pid') + '')
-    file.close()
-
-
-def write_ln(file, str):
-    file.write(str + '\n')
 
 
 def add_ssh_key():
