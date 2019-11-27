@@ -22,12 +22,9 @@ RUN ln -fsn /usr/bin/python3 /usr/bin/python
 RUN ln -fsn /usr/bin/pip3 /usr/bin/pip
 
 COPY .docker/ /
-COPY ansible_project_init/ /opt/ansible_project_init
-
-RUN ln -fsn /opt/ansible_project_init/ansible_vault_crypt.py /usr/bin/ansible-vault-encrypt-password \
-  && ln -fsn /opt/ansible_project_init/ansible_vault_init.py /usr/bin/ansible-vault-init \
-  && ln -fsn /opt/ansible_project_init/ansible_galaxy_init.py /usr/bin/ansible-galaxy-init \
-  && ln -fsn /opt/ansible_project_init/ssh_agent_init.py /usr/bin/ssh-agent-init
+COPY ansible_project_init/ /opt/ansible_project_init/ansible_project_init
+COPY setup.py /opt/ansible_project_init/setup.py
+RUN pip install -e /opt/ansible_project_init
 
 WORKDIR /ansible
 

@@ -17,7 +17,7 @@ def get_input(msg):
     return input(msg)
 
 
-def vault_encrypt_password():
+def encrypt_vault_password():
     base_dir = os.getcwd()
     encrypted_vault_password_file = base_dir + '/.vault-password'
     confirm_msg = confirm_msg_template.format(encrypted_vault_password_file)
@@ -86,4 +86,4 @@ def decrypt_file_to_file(
 
 
 if __name__ == "__main__":
-    vault_encrypt_password()
+    encrypt_vault_password()

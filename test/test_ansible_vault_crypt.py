@@ -9,13 +9,13 @@ class AnsibleVaultCryptTest(unittest.TestCase):
 
     @mock.patch('os.getcwd')
     @mock.patch('getpass.getpass')
-    def test_vault_encrypt_password(self, mock_getpass, mock_getcwd):
+    def test_encrypt_vault_password(self, mock_getpass, mock_getcwd):
         password = 'bar'
         cwd = tempfile.TemporaryDirectory('r')
         mock_getpass.return_value = password
         mock_getcwd.return_value = cwd.name
 
-        ansible_vault_crypt.vault_encrypt_password()
+        ansible_vault_crypt.encrypt_vault_password()
 
         self.assertTrue(ansible_vault_crypt.is_file_exist(
             cwd.name + '/.vault-password')
