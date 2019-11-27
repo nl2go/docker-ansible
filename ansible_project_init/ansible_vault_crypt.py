@@ -6,11 +6,11 @@ import getpass
 
 
 confirm_msg_template = \
-    'File "{}" already exists. Do you want to replace it? (y/n): '
+    'File {} already exists. Do you want to replace it? (y/n): '
 prompt_master_password_msg = \
     'Enter the master password for .vault-password files: '
 prompt_vault_password_msg_template = \
-    'Enter the vault password for "{}" inventory: '
+    'Enter the vault password for {} inventory: '
 
 
 def get_input(msg):
@@ -35,7 +35,7 @@ def encrypt_vault_password():
         master_password,
         encrypted_vault_password_file
     )
-    print('Created "{}".'.format(encrypted_vault_password_file))
+    print('Created {}.'.format(encrypted_vault_password_file))
 
 
 def prompt_password(prompt):
@@ -63,7 +63,7 @@ def encrypt_content_to_file(
     password,
     encrypted_file
 ):
-    command = 'echo {}| openssl enc -aes-256-cbc -pbkdf2 -pass "pass:{}" > {}'\
+    command = 'echo {}| openssl enc -aes-256-cbc -pbkdf2 -pass pass:{} > {}'\
         .format(
             content,
             password,
@@ -84,7 +84,3 @@ def decrypt_file_to_file(
             decrypted_file
         )
     subprocess.call(command, shell=True)
-
-
-if __name__ == "__main__":
-    encrypt_vault_password()

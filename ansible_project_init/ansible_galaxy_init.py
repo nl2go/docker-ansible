@@ -9,7 +9,7 @@ def is_file(file):
 
 
 def install_dependencies(requirements_file):
-    command = 'ansible-galaxy install -r "{}"'.format(requirements_file)
+    command = 'ansible-galaxy install -r {}'.format(requirements_file)
     subprocess.call(command)
 
 
@@ -18,16 +18,12 @@ def init():
     requirements_file = base_dir + '/roles/requirements.yml'
     if is_file(requirements_file):
         print(
-            'Installing Ansible Galaxy roles from "{}".'
+            'Installing Ansible Galaxy roles from {}.'
             .format(requirements_file)
         )
         install_dependencies(requirements_file)
     else:
         print(
-            'Skipping Ansible Galaxy roles installation. No "{}" file present.'
+            'Skipping Ansible Galaxy roles installation. No {} file present.'
             .format(requirements_file)
         )
-
-
-if __name__ == "__main__":
-    init()

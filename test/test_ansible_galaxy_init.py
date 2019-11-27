@@ -20,7 +20,7 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
         mock_subprocess_call.side_effect = (
             lambda command: self.assertEqual(
                 command,
-                'ansible-galaxy install -r "' + requirements_file + '"'
+                'ansible-galaxy install -r ' + requirements_file
             )
         )
 

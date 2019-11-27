@@ -1,7 +1,7 @@
-version: '3.5'
+version: '2.0'
 services:
   ansible:
-    image: nl2go/ansible
+    image: nl2go/ansible:2.7-n2g-1
     tty: true
     stdin_open: true
     volumes:
