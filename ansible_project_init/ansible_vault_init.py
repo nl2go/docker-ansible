@@ -58,5 +58,5 @@ def init():
     else:
         print(
             'Skpping Anisble Vault password decryption. '
-            'No .vault-password files were found!'
+            'No .vault-password files present.'
         )
