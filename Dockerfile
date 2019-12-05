@@ -2,7 +2,7 @@ FROM alpine:3.10.3
 
 LABEL MAINTAINER=<ops@newsletter2go.com>
 
-ARG ANSIBLE_VERSION=2.7
+ARG ANSIBLE_VERSION=2.7.*
 
 RUN apk --update --no-cache add \
     sudo \
@@ -15,7 +15,7 @@ RUN apk --update --no-cache add \
     libffi-dev \
     openssl-dev \
     build-base \
-  && pip3 install ansible~=$ANSIBLE_VERSION \
+  && pip3 install ansible==$ANSIBLE_VERSION \
   && apk del build-dependencies
 
 RUN ln -fsn /usr/bin/python3 /usr/bin/python
