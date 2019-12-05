@@ -15,7 +15,7 @@ RUN apk --update --no-cache add \
     libffi-dev \
     openssl-dev \
     build-base \
-  && pip3 install ansible==$ANSIBLE_VERSION \
+  && pip3 install ansible~=$ANSIBLE_VERSION \
   && apk del build-dependencies
 
 RUN ln -fsn /usr/bin/python3 /usr/bin/python
