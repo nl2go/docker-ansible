@@ -25,9 +25,11 @@ def get_installed_version(role):
     try:
         install_info = yaml.safe_load(f.read())
     except yaml.YAMLError as e:
-        print("Unable to load data from the requirements file: {}"
+        print("Unable to load data from the install info file: {}"
               .format(str(e)))
         return None
+    finally:
+        f.close()
 
     return install_info["version"]
 
