@@ -8,19 +8,29 @@ from ansible_project_init import ansible_galaxy_init
 
 class AnsibleGalaxyInitTest(unittest.TestCase):
 
-    @mock.patch('subprocess.call')
-    @mock.patch('os.getcwd')
+    @mock.patch("subprocess.call")
+    @mock.patch("os.getcwd")
     def test_init(self, mock_os_getcwd, mock_subprocess_call):
-        base_dir = tempfile.TemporaryDirectory('r')
-        role_dir = base_dir.name + '/roles'
+        expected_package = "some.package"
+        expected_version = "1903"
+
+        base_dir = tempfile.TemporaryDirectory("r")
+        role_dir = base_dir.name + "/roles"
         os.makedirs(role_dir, exist_ok=True)
-        requirements_file = role_dir + '/requirements.yml'
-        open(requirements_file, 'a').close()
+        requirements_file = role_dir + "/requirements.yml"
+        with open(requirements_file, "a", encoding="utf-8") as f:
+            f.write("- src: %s\n" % expected_package)
+            f.write("  version: %s" % expected_version)
         mock_os_getcwd.return_value = base_dir.name
         mock_subprocess_call.side_effect = (
             lambda command: self.assertEqual(
-                command,
-                ['ansible-galaxy', 'install', '-r', requirements_file]
+                [
+                    "ansible-galaxy",
+                    "install",
+                    "%s,%s" % (expected_package, expected_version),
+                    ""
+                ],
+                command
             )
         )
 
@@ -28,9 +38,9 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
 
         base_dir.cleanup()
 
-    @mock.patch('os.getcwd')
+    @mock.patch("os.getcwd")
     def test_init_skip(self, mock_os_getcwd):
-        base_dir = '/tmp'
+        base_dir = "/tmp"
         mock_os_getcwd.return_value = base_dir
 
         ansible_galaxy_init.init()
