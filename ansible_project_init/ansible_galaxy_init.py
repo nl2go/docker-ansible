@@ -43,18 +43,16 @@ def install_dependencies(requirements_file):
         return
 
     for role in required_roles:
-        required_src = role["src"] if "src" in role else None
+        req_src = role["src"] if "src" in role else None
         req_version = role["version"] if "version" in role else None
 
-        if not required_src:
+        if not req_src:
             continue
 
-        cur_version = get_installed_version(required_src)
+        cur_version = get_installed_version(req_src)
 
-        if cur_version and \
-            (not req_version or cur_version == req_version):
-
-            print("%s (%s) is already installed." % (required_src, cur_version))
+        if cur_version and (not req_version or cur_version == req_version):
+            print("%s (%s) is already installed." % (req_src, cur_version))
             continue
 
         force = "--force" if cur_version and cur_version != req_version else ""
@@ -62,7 +60,7 @@ def install_dependencies(requirements_file):
         command = [
             "ansible-galaxy",
             "install",
-            "%s,%s" % (required_src, req_version),
+            "%s,%s" % (req_src, req_version),
             force
         ]
         subprocess.call(command)
