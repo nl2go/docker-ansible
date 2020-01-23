@@ -35,14 +35,15 @@ def get_installed_version(role):
 
 
 def install_dependencies(requirements_file):
+    f = open(requirements_file, "r")
     try:
-        f = open(requirements_file, "r")
         required_roles = yaml.safe_load(f.read())
-        f.close()
     except yaml.YAMLError as e:
         print("Unable to load data from the requirements file: {}"
               .format(str(e)))
         return
+    finally:
+        f.close()
 
     for role in required_roles:
         req_src = role["src"] if "src" in role else None
@@ -57,14 +58,15 @@ def install_dependencies(requirements_file):
             print("%s (%s) is already installed." % (req_src, cur_version))
             continue
 
-        force = "--force" if cur_version and cur_version != req_version else ""
-
         command = [
             "ansible-galaxy",
             "install",
-            "%s,%s" % (req_src, req_version),
-            force
+            "%s,%s" % (req_src, req_version)
         ]
+
+        if cur_version and cur_version != req_version:
+            command.append("--force")
+
         subprocess.call(command)
 
 
