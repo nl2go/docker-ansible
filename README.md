@@ -83,6 +83,18 @@ Alternatively encrypted password files may be reloaded within existing container
     Enter decryption password for .vault-password files: 
     Decrypting /ansible/inventories/prod/.vault-password.
 
+#### Encrypt Secrets
+Secret values are encrypted per inventory (e.g. inventory `prod`, secret value `foo`).
+
+    $ ansible-vault encrypt_string --encrypt-vault-id 'prod' 'foo'
+    !vault |
+              $ANSIBLE_VAULT;1.2;AES256;production-de
+              33636332626264316661363731393861333764313361326262313664336435366666306664636434
+              3339643439333138303035373866363265326132653363380a303937343963303530666337396561
+              31626334633162323731323539393330366633386338393439613332373362383137383930616362
+              3066383536323139610a616434643664613435356365356330636435633666353864626439626335
+              6664
+
 ### Ansible Galaxy
 
 Bigger Ansible projects frequently utilize Ansible Galaxy Roles that can be installed using a `requirements.yml` file.
