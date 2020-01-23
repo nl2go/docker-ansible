@@ -40,12 +40,12 @@ class AnsibleVaultCryptTest(unittest.TestCase):
         )
 
         actual_content = file.read().rstrip()
+        encrypted_file.close()
+        file.close()
         self.assertEqual(
             content,
             actual_content
         )
-        encrypted_file.close()
-        file.close()
 
     @mock.patch('getpass.getpass')
     def test_prompt_password(self, mock_get_pass):
