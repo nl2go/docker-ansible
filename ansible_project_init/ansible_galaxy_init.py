@@ -19,31 +19,15 @@ def is_installed(role):
 
 def get_installed_version(role):
     if not is_installed(role):
-        return None
+        return
 
-    f = open(INSTALL_INFO_PATH_FORMAT % role, "r")
-    try:
-        install_info = yaml.safe_load(f.read())
-    except yaml.YAMLError as e:
-        print("Unable to load data from the install info file: {}"
-              .format(str(e)))
-        return None
-    finally:
-        f.close()
+    data = get_yaml_file_content(INSTALL_INFO_PATH_FORMAT % role)
 
-    return install_info["version"]
+    return data.get("version")
 
 
 def install_dependencies(requirements_file):
-    f = open(requirements_file, "r")
-    try:
-        required_roles = yaml.safe_load(f.read())
-    except yaml.YAMLError as e:
-        print("Unable to load data from the requirements file: {}"
-              .format(str(e)))
-        return
-    finally:
-        f.close()
+    required_roles = get_yaml_file_content(requirements_file)
 
     for role in required_roles:
         src = role["src"] if "src" in role else None
@@ -59,6 +43,20 @@ def install_dependencies(requirements_file):
             continue
 
         install_dependency(src, cur_version, req_version)
+
+
+def get_yaml_file_content(file):
+    f = open(file, "r")
+    try:
+        data = yaml.safe_load(f.read())
+    except yaml.YAMLError as e:
+        print("Unable to load data from the file {}: {}"
+              .format(file, str(e)))
+        data = {}
+    finally:
+        f.close()
+
+    return data
 
 
 def install_dependency(src, cur_version, req_version):

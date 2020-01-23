@@ -133,13 +133,14 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
 
     @mock.patch("os.getcwd")
     def test_init_with_invalid_requirements_yaml(self, mock_os_getcwd):
-        expected_output = "Unable to load data from the requirements file"
-
         base_dir = tempfile.TemporaryDirectory("r")
+        requirements_file = "%s/roles/requirements.yml" % base_dir.name
+        expected_output = "Unable to load data from the file %s" % requirements_file
+
         requirement_lines = [
             "some: invalid: yaml",
         ]
-        requirements_file = "%s/roles/requirements.yml" % base_dir.name
+
         create_file(requirements_file, requirement_lines)
 
         mock_os_getcwd.return_value = base_dir.name
@@ -156,21 +157,23 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
         self, mock_os_getcwd, mock_subprocess_call
     ):
         expected_package = "some.package"
+        installed_info_file = INSTALL_INFO_PATH_FORMAT % expected_package
         expected_version = "1991"
-        expected_output = "Unable to load data from the install info file"
+        expected_output = "Unable to load data from the file %s" % installed_info_file
 
-        base_dir = tempfile.TemporaryDirectory("r")
         requirement_lines = [
             "- src: %s\n" % expected_package,
             "  version: %s\n" % expected_version,
         ]
+
+        base_dir = tempfile.TemporaryDirectory("r")
         requirements_file = "%s/roles/requirements.yml" % base_dir.name
         create_file(requirements_file, requirement_lines)
 
         install_info_lines = [
             "some: invalid: yaml",
         ]
-        installed_info_file = INSTALL_INFO_PATH_FORMAT % expected_package
+
         create_file(installed_info_file, install_info_lines)
 
         mock_os_getcwd.return_value = base_dir.name
