@@ -1,6 +1,7 @@
 [![Travis (.org) branch](https://img.shields.io/travis/nl2go/docker-ansible/master)](https://travis-ci.org/nl2go/docker-ansible)
 [![Codecov](https://img.shields.io/codecov/c/github/nl2go/docker-ansible)](https://codecov.io/gh/nl2go/docker-ansible)
-[![Docker Pulls](https://img.shields.io/docker/pulls/nl2go/ansible)](https://hub.docker.com/r/nl2go/ansible)
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/nl2go/docker-ansible)](https://codeclimate.com/github/nl2go/docker-ansible)[
+![Docker Pulls](https://img.shields.io/docker/pulls/nl2go/ansible)](https://hub.docker.com/r/nl2go/ansible)
 [![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/nl2go/docker-ansible)](https://hub.docker.com/repository/docker/nl2go/ansible/tags?page=1)
 
 # Docker Ansible
