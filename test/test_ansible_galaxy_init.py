@@ -135,7 +135,8 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
     def test_init_with_invalid_requirements_yaml(self, mock_os_getcwd):
         base_dir = tempfile.TemporaryDirectory("r")
         requirements_file = "%s/roles/requirements.yml" % base_dir.name
-        expected_output = "Unable to load data from the file %s" % requirements_file
+        expected_output = \
+            "Unable to load data from the file %s" % requirements_file
 
         requirement_lines = [
             "some: invalid: yaml",
@@ -159,7 +160,8 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
         expected_package = "some.package"
         installed_info_file = INSTALL_INFO_PATH_FORMAT % expected_package
         expected_version = "1991"
-        expected_output = "Unable to load data from the file %s" % installed_info_file
+        expected_output = \
+            "Unable to load data from the file %s" % installed_info_file
 
         requirement_lines = [
             "- src: %s\n" % expected_package,
