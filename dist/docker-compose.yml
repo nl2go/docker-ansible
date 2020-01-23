@@ -1,9 +1,11 @@
 version: '2.0'
 services:
   ansible:
-    image: nl2go/ansible:2.7-n2g-1
+    image: nl2go/ansible:2.7-n2g-1.0.1
     tty: true
     stdin_open: true
     volumes:
       - .:/ansible
       - $HOME$USERPROFILE/.ssh:/tmp/.ssh
+      - $HOME$USERPROFILE/.docker_ansible_history:/root/.ash_history
+      - ./.cache/root/.ansible/roles:/root/.ansible/roles
