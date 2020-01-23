@@ -30,19 +30,23 @@ def install_dependencies(requirements_file):
     required_roles = get_yaml_file_content(requirements_file)
 
     for role in required_roles:
-        src = role["src"] if "src" in role else None
-        req_version = role["version"] if "version" in role else None
+        src = role.get("src")
+        req_version = role.get("version")
 
         if not src:
             continue
 
         cur_version = get_installed_version(src)
 
-        if cur_version and (not req_version or cur_version == req_version):
+        if is_version_installed(cur_version, req_version):
             print("%s (%s) is already installed." % (src, cur_version))
             continue
 
         install_dependency(src, cur_version, req_version)
+
+
+def is_version_installed(cur_version, req_version):
+    return cur_version and (not req_version or cur_version == req_version)
 
 
 def get_yaml_file_content(file):
