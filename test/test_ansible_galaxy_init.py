@@ -151,15 +151,19 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
 
         base_dir.cleanup()
 
+    @mock.patch("subprocess.call")
     @mock.patch("os.getcwd")
-    def test_init_with_invalid_install_info_yaml(self, mock_os_getcwd):
+    def test_init_with_invalid_install_info_yaml(
+        self, mock_os_getcwd, mock_subprocess_call
+    ):
         expected_package = "some.package"
+        expected_version = "1991"
         expected_output = "Unable to load data from the install info file"
 
         base_dir = tempfile.TemporaryDirectory("r")
         requirement_lines = [
             "- src: %s\n" % expected_package,
-            "  version: some.version\n",
+            "  version: %s\n" % expected_version,
         ]
         requirements_file = "%s/roles/requirements.yml" % base_dir.name
         create_file(requirements_file, requirement_lines)
@@ -171,6 +175,17 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
         create_file(installed_info_file, install_info_lines)
 
         mock_os_getcwd.return_value = base_dir.name
+        mock_subprocess_call.side_effect = (
+            lambda command: self.assertEqual(
+                [
+                    "ansible-galaxy",
+                    "install",
+                    "%s,%s" % (expected_package, expected_version),
+                    ""
+                ],
+                command
+            )
+        )
 
         with mock.patch('sys.stdout', new=StringIO()) as fake_out:
             ansible_galaxy_init.init()
