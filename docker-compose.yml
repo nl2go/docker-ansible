@@ -1,6 +1,7 @@
 version: '2.0'
 services:
   ansible:
+    image: nl2go/ansible:dev
     build:
       context: ./
       dockerfile: Dockerfile

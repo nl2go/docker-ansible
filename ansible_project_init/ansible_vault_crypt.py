@@ -59,7 +59,7 @@ def is_file_exist(file):
 
 
 def encrypt_content_to_file(content, password, encrypted_file):
-    call(
+    return call(
         'echo {}| openssl enc -aes-256-cbc -pbkdf2 -pass pass:{} > {}',
         content,
         password,
@@ -68,7 +68,7 @@ def encrypt_content_to_file(content, password, encrypted_file):
 
 
 def decrypt_file_to_file(password, encrypted_file, decrypted_file):
-    call(
+    return call(
         'openssl enc -d -aes-256-cbc -pbkdf2 -pass pass:{} < {} > {}',
         password,
         encrypted_file,
@@ -87,4 +87,4 @@ def call(
         encrypted_file,
         decrypted_file
     )
-    subprocess.call(command, shell=True)
+    return subprocess.call(command, shell=True)
