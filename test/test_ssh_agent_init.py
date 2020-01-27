@@ -32,7 +32,7 @@ class SshAgentInitTest(unittest.TestCase):
             'SSH_AUTH_SOCK=/tmp/ssh-TIVv4l2O49GZ/agent.78;' \
             'export SSH_AUTH_SOCK;SSH_AGENT_PID=79;' \
             'export SSH_AGENT_PID; echo Agent pid 79;'.encode()
-        mock_call.side_effect = (lambda command: 'ssh-add')
+        mock_call.return_value = 0
 
         ssh_agent_init.init()
 
