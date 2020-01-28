@@ -47,8 +47,8 @@ def set_ssh_agent_env_config(agent_data):
 
 
 def add_ssh_key(attempt=1):
-    if attempt > 3:
-        print("You have entered empty passphrase 3 times")
+    if attempt > 5:
+        print("You have entered empty passphrase 5 times")
         exit(1)
 
     exit_code = subprocess.call('ssh-add')
