@@ -47,6 +47,7 @@ class AnsibleVaultInitTest(unittest.TestCase):
         inventory_dir = base_dir.name + '/inventories/foo'
         os.makedirs(inventory_dir, exist_ok=True)
         encrypted_vault_password_file = inventory_dir + '/.vault-password'
+        file = open(encrypted_vault_password_file, "w+")
         ansible_vault_crypt.encrypt_content_to_file(
             vault_password,
             encryption_password,
@@ -56,7 +57,7 @@ class AnsibleVaultInitTest(unittest.TestCase):
         mock_call.return_value = 0
 
         ansible_vault_init.init()
-
+        file.close()
         base_dir.cleanup()
 
     @mock.patch('os.getcwd')

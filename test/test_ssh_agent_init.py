@@ -42,6 +42,12 @@ class SshAgentInitTest(unittest.TestCase):
 
         ssh_agent_init.init()
 
+    @mock.patch('subprocess.call')
+    def test_add_ssh_key_with_failed_attempts(self, mock_call):
+        mock_call.return_value = 1
+        with self.assertRaises(SystemExit):
+            ssh_agent_init.add_ssh_key()
+
     def verify_private_key_chmod(self, private_key, mode):
         self.assertEqual('/root/.ssh/id_rsa', private_key)
         self.assertEqual(0o600, mode)
