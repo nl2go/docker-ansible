@@ -36,9 +36,10 @@ class AnsibleVaultInitTest(unittest.TestCase):
         )
         base_dir.cleanup()
 
+    @mock.patch('subprocess.call')
     @mock.patch('getpass.getpass')
     @mock.patch('os.getcwd')
-    def test_init(self, mock_os_getcwd, mock_get_pass):
+    def test_init(self, mock_os_getcwd, mock_get_pass, mock_call):
         vault_password = 'foo'
         encryption_password = 'bar'
         mock_get_pass.return_value = encryption_password
@@ -52,6 +53,7 @@ class AnsibleVaultInitTest(unittest.TestCase):
             encrypted_vault_password_file
         )
         mock_os_getcwd.return_value = base_dir.name
+        mock_call.return_value = 0
 
         ansible_vault_init.init()
 
@@ -62,3 +64,7 @@ class AnsibleVaultInitTest(unittest.TestCase):
         mock_os_getcwd.return_value = '/tmp'
 
         ansible_vault_init.init()
+
+    def test_decrypt_vault_password_files_after_5th(self):
+        with self.assertRaises(SystemExit):
+            ansible_vault_init.decrypt_vault_password_files([], 6)

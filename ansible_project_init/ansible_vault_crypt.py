@@ -23,7 +23,7 @@ def encrypt_vault_password():
     confirm_msg = confirm_msg_template.format(encrypted_vault_password_file)
     if is_file_exist(encrypted_vault_password_file) \
             and not is_confirm(confirm_msg):
-        return
+        return False
 
     inventory_name = os.path.basename(base_dir)
     master_password = prompt_password(prompt_master_password_msg)

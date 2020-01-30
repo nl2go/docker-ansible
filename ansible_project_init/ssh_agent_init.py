@@ -28,8 +28,6 @@ def run_ssh_agent():
         'SSH_AUTH_SOCK=(?P<socket>[^;]+).*SSH_AGENT_PID=(?P<pid>\\d+)',
         re.MULTILINE | re.DOTALL
     )
-    print("--- ssh agent output ---")
-    print(output)
     match = output_pattern.search(output)
     if match is None:
         raise Exception(''
