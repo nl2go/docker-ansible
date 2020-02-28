@@ -50,10 +50,11 @@ def decrypt_vault_password_files(encrypted_vault_password_files, attempt=1):
         )
         if exit_code != 0:
             attempt += 1
-            decrypt_vault_password_files(
+            vault_ids = decrypt_vault_password_files(
                 encrypted_vault_password_files,
                 attempt
             )
+            return vault_ids
 
         vault_ids.append(vault_id)
     return vault_ids
