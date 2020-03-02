@@ -40,9 +40,13 @@ class AnsibleVaultInitTest(unittest.TestCase):
     @mock.patch('getpass.getpass')
     @mock.patch('os.getcwd')
     def test_init(self, mock_os_getcwd, mock_get_pass, mock_call):
+        some_invalid_encryption_password = 'some_invalid_pass'
         vault_password = 'foo'
         encryption_password = 'bar'
-        mock_get_pass.return_value = encryption_password
+        mock_get_pass.side_effect = [
+            some_invalid_encryption_password,
+            encryption_password
+        ]
         base_dir = tempfile.TemporaryDirectory('r')
         inventory_dir = base_dir.name + '/inventories/foo'
         os.makedirs(inventory_dir, exist_ok=True)
@@ -54,7 +58,7 @@ class AnsibleVaultInitTest(unittest.TestCase):
             encrypted_vault_password_file
         )
         mock_os_getcwd.return_value = base_dir.name
-        mock_call.return_value = 0
+        mock_call.side_effect = [1, 0]
 
         ansible_vault_init.init()
         file.close()
