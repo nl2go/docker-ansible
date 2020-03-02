@@ -44,8 +44,15 @@ def set_ssh_agent_env_config(agent_data):
     os.environ['SSH_AGENT_PID'] = agent_data.get('pid')
 
 
-def add_ssh_key():
-    subprocess.call('ssh-add')
+def add_ssh_key(attempt=1):
+    if attempt > 5:
+        print("You have entered empty passphrase 5 times")
+        exit(1)
+
+    exit_code = subprocess.call('ssh-add')
+    if exit_code != 0:
+        attempt += 1
+        add_ssh_key(attempt)
 
 
 def init():
@@ -61,7 +68,5 @@ def init():
         run_ssh_agent()
         add_ssh_key()
     else:
-        print(
-            'Skipping SSH Agent start. No private key was found at {}.'
-            .format(tmp_private_key)
-        )
+        print('Skipping SSH Agent start. No private key was found at {}.'
+              .format(tmp_private_key))

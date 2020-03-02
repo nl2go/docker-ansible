@@ -23,7 +23,7 @@ def encrypt_vault_password():
     confirm_msg = confirm_msg_template.format(encrypted_vault_password_file)
     if is_file_exist(encrypted_vault_password_file) \
             and not is_confirm(confirm_msg):
-        return
+        return False
 
     inventory_name = os.path.basename(base_dir)
     master_password = prompt_password(prompt_master_password_msg)
@@ -59,7 +59,7 @@ def is_file_exist(file):
 
 
 def encrypt_content_to_file(content, password, encrypted_file):
-    call(
+    return call(
         'echo {}| openssl enc -aes-256-cbc -pbkdf2 -pass pass:{} > {}',
         content,
         password,
@@ -68,7 +68,7 @@ def encrypt_content_to_file(content, password, encrypted_file):
 
 
 def decrypt_file_to_file(password, encrypted_file, decrypted_file):
-    call(
+    return call(
         'openssl enc -d -aes-256-cbc -pbkdf2 -pass pass:{} < {} > {}',
         password,
         encrypted_file,
@@ -87,4 +87,4 @@ def call(
         encrypted_file,
         decrypted_file
     )
-    subprocess.call(command, shell=True)
+    return subprocess.call(command, shell=True)

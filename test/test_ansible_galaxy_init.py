@@ -202,3 +202,9 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
         mock_os_getcwd.return_value = base_dir
 
         ansible_galaxy_init.init()
+
+    @mock.patch("os.path.isfile")
+    def test_is_not_installed(self, mock_is_file):
+        mock_is_file.return_value = False
+
+        self.assertIsNone(ansible_galaxy_init.get_installed_version('role'))

@@ -31,7 +31,11 @@ def get_vault_id(inventory_name, vault_password_file):
     return '{}@{}'.format(inventory_name, vault_password_file)
 
 
-def decrypt_vault_password_files(encrypted_vault_password_files):
+def decrypt_vault_password_files(encrypted_vault_password_files, attempt=1):
+    if attempt > 5:
+        print("You have entered invalid vault password 5 times")
+        exit(1)
+
     vault_ids = []
     encryption_password = prompt_encryption_password()
     for encrypted_vault_password_file in encrypted_vault_password_files:
@@ -39,11 +43,19 @@ def decrypt_vault_password_files(encrypted_vault_password_files):
         inventory_name = get_inventory_name(encrypted_vault_password_file)
         vault_password_file = get_vault_password_file(inventory_name)
         vault_id = get_vault_id(inventory_name, vault_password_file)
-        ansible_vault_crypt.decrypt_file_to_file(
+        exit_code = ansible_vault_crypt.decrypt_file_to_file(
             encryption_password,
             encrypted_vault_password_file,
             vault_password_file
         )
+        if exit_code != 0:
+            attempt += 1
+            vault_ids = decrypt_vault_password_files(
+                encrypted_vault_password_files,
+                attempt
+            )
+            return vault_ids
+
         vault_ids.append(vault_id)
     return vault_ids
 
