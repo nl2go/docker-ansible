@@ -21,7 +21,9 @@ RUN apk --update --no-cache add \
 RUN ln -fsn /usr/bin/python3 /usr/bin/python
 RUN ln -fsn /usr/bin/pip3 /usr/bin/pip
 
-RUN pip install ansible-filter==1.0.1
+RUN pip install \
+  ansible-filter==1.0.1 \
+  netaddr==0.7.19
 
 COPY .docker/ /
 COPY ansible_project_init/ /opt/ansible_project_init/ansible_project_init
