@@ -22,7 +22,7 @@ RUN ln -fsn /usr/bin/python3 /usr/bin/python
 RUN ln -fsn /usr/bin/pip3 /usr/bin/pip
 
 RUN pip install \
-  ansible-filter==1.0.1 \
+  ansible-filter==1.2.0 \
   netaddr==0.7.19
 
 COPY .docker/ /
