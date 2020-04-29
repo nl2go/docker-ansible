@@ -2,7 +2,7 @@ FROM alpine:3.10.3
 
 LABEL MAINTAINER=<ops@newsletter2go.com>
 
-ARG ANSIBLE_VERSION=2.7.*
+ARG ANSIBLE_VERSION=2.8.*
 
 RUN apk --update --no-cache add \
     sudo \
