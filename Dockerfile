@@ -2,7 +2,7 @@ FROM alpine:3.10.3
 
 LABEL MAINTAINER=<ops@newsletter2go.com>
 
-ARG ANSIBLE_VERSION=2.7.*
+ARG ANSIBLE_VERSION=2.8.*
 
 RUN apk --update --no-cache add \
     sudo \
@@ -23,7 +23,8 @@ RUN ln -fsn /usr/bin/pip3 /usr/bin/pip
 
 RUN pip install \
   ansible-filter==1.1.1 \
-  netaddr==0.7.19
+  netaddr==0.7.19 \
+  pymongo
 
 COPY .docker/ /
 COPY ansible_project_init/ /opt/ansible_project_init/ansible_project_init
