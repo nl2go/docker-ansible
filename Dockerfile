@@ -23,7 +23,8 @@ RUN ln -fsn /usr/bin/pip3 /usr/bin/pip
 
 RUN pip install \
   ansible-filter==1.1.1 \
-  netaddr==0.7.19
+  netaddr==0.7.19 \
+  pymongo
 
 COPY .docker/ /
 COPY ansible_project_init/ /opt/ansible_project_init/ansible_project_init
