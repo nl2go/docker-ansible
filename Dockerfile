@@ -4,7 +4,7 @@ LABEL MAINTAINER=<ops@newsletter2go.com>
 
 ARG ANSIBLE_VERSION=2.8.*
 
-RUN apt-get update && apt-get -y install \
+RUN apt update && apt -y install \
     sudo \
     wget \
     openssl \
