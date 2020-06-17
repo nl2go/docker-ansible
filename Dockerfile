@@ -1,22 +1,25 @@
-FROM alpine:3.10.3
+FROM ubuntu:20.04
 
 LABEL MAINTAINER=<ops@newsletter2go.com>
 
 ARG ANSIBLE_VERSION=2.8.*
 
-RUN apk --update --no-cache add \
+RUN apt-get update && apt-get -y install \
     sudo \
+    wget \
     openssl \
     ca-certificates \
     openssh-client \
     python3 \
-  && apk --no-cache --virtual build-dependencies add \
     python3-dev \
+    python3-pip \
     libffi-dev \
-    openssl-dev \
-    build-base \
-  && pip3 install ansible==$ANSIBLE_VERSION \
-  && apk del build-dependencies
+    libssl-dev \
+    build-essential \
+  && pip3 install ansible==$ANSIBLE_VERSION
+
+RUN wget -O /tmp/teleport.deb 'https://get.gravitational.com/teleport_4.2.10_amd64.deb' \
+  && dpkg -i /tmp/teleport.deb && rm -f /tmp/teleport.deb
 
 RUN ln -fsn /usr/bin/python3 /usr/bin/python
 RUN ln -fsn /usr/bin/pip3 /usr/bin/pip
@@ -35,4 +38,4 @@ WORKDIR /ansible
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-CMD ["/bin/ash"]
+CMD ["/bin/bash"]

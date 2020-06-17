@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/bin/bash
 
 set -e
 
@@ -8,4 +8,4 @@ if test -f /tmp/.ansible-project-init-env; then
     . /tmp/.ansible-project-init-env
 fi
 
-ash -c "$*"
+bash -c "$*"
