@@ -4,8 +4,6 @@ LABEL MAINTAINER=<ops@newsletter2go.com>
 
 ARG ANSIBLE_VERSION=2.8.*
 
-ENV TELEPORT_VERSION=4.2.10
-
 RUN apt-get update && apt-get -y install \
     sudo \
     wget \
@@ -19,9 +17,6 @@ RUN apt-get update && apt-get -y install \
     libssl-dev \
     build-essential \
   && pip3 install ansible==$ANSIBLE_VERSION
-
-RUN wget -O /tmp/teleport.deb "https://get.gravitational.com/teleport_${TELEPORT_VERSION}_amd64.deb" \
-  && dpkg -i /tmp/teleport.deb && rm -f /tmp/teleport.deb
 
 RUN ln -fsn /usr/bin/python3 /usr/bin/python
 RUN ln -fsn /usr/bin/pip3 /usr/bin/pip
