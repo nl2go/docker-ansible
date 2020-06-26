@@ -27,7 +27,8 @@ def run_ssh_agent():
     if ssh_auth_sock is None:
         output = subprocess.check_output('ssh-agent').decode()
     else:
-        output = subprocess.check_output(['ssh-agent', '-a', ssh_auth_sock]).decode()
+        agent_process = ['ssh-agent', '-a', ssh_auth_sock]
+        output = subprocess.check_output(agent_process).decode()
     output_pattern = re.compile(
         'SSH_AUTH_SOCK=(?P<socket>[^;]+).*SSH_AGENT_PID=(?P<pid>\\d+)',
         re.MULTILINE | re.DOTALL
