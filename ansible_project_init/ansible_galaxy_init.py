@@ -31,6 +31,7 @@ def install_dependencies(requirements_file):
 
     for role in required_roles:
         src = role.get("src")
+        name = role.get("name") if role.get("name") else src
         req_version = role.get("version")
 
         if not src:
@@ -42,7 +43,7 @@ def install_dependencies(requirements_file):
             print("%s (%s) is already installed." % (src, cur_version))
             continue
 
-        install_dependency(src, cur_version, req_version)
+        install_dependency(src, cur_version, req_version, name)
 
 
 def is_version_installed(cur_version, req_version):
@@ -63,11 +64,11 @@ def get_yaml_file_content(file):
     return data
 
 
-def install_dependency(src, cur_version, req_version):
+def install_dependency(src, cur_version, req_version, name):
     command = [
         "ansible-galaxy",
         "install",
-        "%s,%s" % (src, req_version)
+        "%s,%s,%s" % (src, req_version, name)
     ]
 
     if cur_version and cur_version != req_version:
