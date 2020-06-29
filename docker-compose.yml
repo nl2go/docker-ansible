@@ -10,3 +10,5 @@ services:
     volumes:
       - .:/ansible
       - $HOME$USERPROFILE/.ssh:/tmp/.ssh
+    environment:
+      SSH_AUTH_SOCK: /tmp/ssh_auth_ansible.sock

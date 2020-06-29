@@ -7,5 +7,5 @@ services:
     volumes:
       - .:/ansible
       - $HOME$USERPROFILE/.ssh:/tmp/.ssh
-      - $HOME$USERPROFILE/.docker_ansible_history:/root/.bash_history
+      - $HOME$USERPROFILE/.docker_ansible_history:/root/.ash_history
       - ./.cache/root/.ansible/roles:/root/.ansible/roles
