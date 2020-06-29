@@ -37,7 +37,47 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
                 [
                     "ansible-galaxy",
                     "install",
-                    "%s,%s" % (expected_package, expected_version)
+                    "%s,%s,%s" % (
+                        expected_package,
+                        expected_version,
+                        expected_package
+                    )
+                ],
+                command
+            )
+        )
+
+        ansible_galaxy_init.init()
+
+        base_dir.cleanup()
+
+    @mock.patch("subprocess.call")
+    @mock.patch("os.getcwd")
+    def test_init_with_alias(self, mock_os_getcwd, mock_subprocess_call):
+        expected_package = "some.package.name"
+        expected_version = "1991"
+        expected_alias = "some.package.alias"
+
+        base_dir = tempfile.TemporaryDirectory("r")
+        requirement_lines = [
+            "- src: %s\n" % expected_package,
+            "  version: %s\n" % expected_version,
+            "  name: %s\n" % expected_alias,
+        ]
+        requirements_file = "%s/roles/requirements.yml" % base_dir.name
+        create_file(requirements_file, requirement_lines)
+
+        mock_os_getcwd.return_value = base_dir.name
+        mock_subprocess_call.side_effect = (
+            lambda command: self.assertEqual(
+                [
+                    "ansible-galaxy",
+                    "install",
+                    "%s,%s,%s" % (
+                        expected_package,
+                        expected_version,
+                        expected_alias
+                    )
                 ],
                 command
             )
@@ -78,7 +118,11 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
                 [
                     "ansible-galaxy",
                     "install",
-                    "%s,%s" % (expected_package, expected_version),
+                    "%s,%s,%s" % (
+                        expected_package,
+                        expected_version,
+                        expected_package
+                    ),
                     "--force"
                 ],
                 command
@@ -184,7 +228,11 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
                 [
                     "ansible-galaxy",
                     "install",
-                    "%s,%s" % (expected_package, expected_version)
+                    "%s,%s,%s" % (
+                        expected_package,
+                        expected_version,
+                        expected_package
+                    )
                 ],
                 command
             )
