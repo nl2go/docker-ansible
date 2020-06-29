@@ -37,7 +37,11 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
                 [
                     "ansible-galaxy",
                     "install",
-                    "%s,%s,%s" % (expected_package, expected_version, expected_package)
+                    "%s,%s,%s" % (
+                        expected_package,
+                        expected_version,
+                        expected_package
+                    )
                 ],
                 command
             )
@@ -69,7 +73,11 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
                 [
                     "ansible-galaxy",
                     "install",
-                    "%s,%s,%s" % (expected_package, expected_version, expected_alias)
+                    "%s,%s,%s" % (
+                        expected_package,
+                        expected_version,
+                        expected_alias
+                    )
                 ],
                 command
             )
@@ -110,7 +118,11 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
                 [
                     "ansible-galaxy",
                     "install",
-                    "%s,%s,%s" % (expected_package, expected_version, expected_package),
+                    "%s,%s,%s" % (
+                        expected_package,
+                        expected_version,
+                        expected_package
+                    ),
                     "--force"
                 ],
                 command
@@ -216,7 +228,11 @@ class AnsibleGalaxyInitTest(unittest.TestCase):
                 [
                     "ansible-galaxy",
                     "install",
-                    "%s,%s,%s" % (expected_package, expected_version, expected_package)
+                    "%s,%s,%s" % (
+                        expected_package,
+                        expected_version,
+                        expected_package
+                    )
                 ],
                 command
             )
