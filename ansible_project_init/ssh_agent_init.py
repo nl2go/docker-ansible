@@ -25,6 +25,7 @@ def is_file_exist(file):
 def run_ssh_agent():
     ssh_auth_sock = os.environ.get('SSH_AUTH_SOCK')
     if ssh_auth_sock is None:
+        subprocess.call(['rm', '-rf', ssh_auth_sock])
         output = subprocess.check_output('ssh-agent').decode()
     else:
         agent_process = ['ssh-agent', '-a', ssh_auth_sock]
