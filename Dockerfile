@@ -10,6 +10,7 @@ RUN apk --update --no-cache add \
     ca-certificates \
     openssh-client \
     python3 \
+    sshpass \
   && apk --no-cache --virtual build-dependencies add \
     python3-dev \
     libffi-dev \
